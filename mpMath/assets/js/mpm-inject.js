@@ -24,7 +24,15 @@ var readyStateCheckInterval = setInterval(function() {
                         editing.innerHTML = event.data.text.substring(beg, end);
                         editingMode = false; // 还原为非编辑模式
                     } else {
-                        window.UE.getEditor('js_editor').execCommand('insertHTML', '\xA0' + event.data.text + '\xA0');
+                        window.__MP_Editor_JSAPI__.invoke({
+                            apiName: 'mp_editor_insert_html',  
+                            apiParam: {
+                                html: '\xA0' + event.data.text + '\xA0',
+                                isSelect: false
+                            },
+                            sucCb: (res) => {console.log('设置成功', res)},  
+                            errCb: (err) => {console.log('设置失败', err)} 
+                        })
                     }
                 }
             }
